@@ -1,0 +1,92 @@
+Ext.define('mt.view.slideshow', {
+    extend: 'Ext.Carousel',
+    xtype: 'slideshow',
+    requires: [
+        'Ext.Img'
+    ],
+    config: {
+        id: 'slideShow',
+        flex: 1,
+        baseCls: Ext.baseCSSPrefix + 'sheet',
+        ui: 'detail'
+    },
+/*
+    beforeInitialize: function() {
+        
+    },
+*/
+    onItemAdd: function(item, index){
+        var size,
+            el = item.element;
+        
+        this.callParent(arguments);
+        
+        if (!el) return;
+
+        el.on({
+            doubletap: function(e, node, options, eOpts) {
+                var img = el.down('.carousel-item-img'),
+                    size = img.getSize(),
+                    scroller = item.getScrollable().getScroller(),
+                    pos;
+
+                if (size.height > 240 || size.width > 320) size = {width: 320, height: 240};
+                else size = {width: 1024, height: 768}
+                
+                img.setSize(size.width, size.height);
+                scroller.refresh();
+                pos = scroller.getMaxPosition();
+                scroller.scrollTo(pos.x/2, pos.y/2);
+            },
+            pinchstart: function(e, node, options, eOpts) {
+                size = el.down('.carousel-item-img').getSize();
+                
+/*
+                item.getScrollable().getScroller().on('maxpositionchange', function(scroller, pos) {
+                    scroller.scrollTo(pos.x/2, pos.y/2);
+                });
+*/
+            },
+            pinch: function(e, node, options, eOpts) {                
+                var newScale = e.scale,
+                    width = size.width*newScale, 
+                    height = size.height*newScale,
+                    scroller = item.getScrollable().getScroller(),
+                    pos;
+
+                if (height > 1024 || width > 1024 || height < 160 || width < 160) return;
+                
+                el.down('.carousel-item-img').setSize(width, height);
+/*
+                el.down('.carousel-item-img').setStyle({
+                    '-webkit-transform': 'scale(' + newScale + ')',
+                    '-webkit-transform-origin': e.pageX + '% ' + e.pageY + '%'
+                });
+*/
+                
+                //pos = scroller.refresh().getMaxPosition();
+                //scroller.scrollTo(pos.x/2, pos.y/2);
+
+            }
+            //pinchend: function() {
+                //item.getScrollable().getScroller().refresh();
+            //}
+        });
+    },
+	onDragStart: function(e) {
+	    var scroller = this.getActiveItem().getScrollable().getScroller();
+		//ensure the image component is scolled all the way to the edge of its scrollable element
+		if(e.targetTouches.length == 1 && (e.deltaX < 0 && scroller.getMaxPosition().x === scroller.position.x) || (e.deltaX > 0 && scroller.position.x == 0)) {
+			this.callParent(arguments);
+		}
+	},
+	onDrag: function(e) {
+		//console.log(this.getActiveItem().getScrollable().getScroller().position.x);
+		if(e.targetTouches.length == 1)
+			this.callParent(arguments);
+	},
+	onDragEnd: function(e) {
+		if(e.targetTouches.length < 2)
+			this.callParent(arguments);
+	}
+});

@@ -1,0 +1,40 @@
+8
+
+dir
+5209
+svn://svn.eqspeed.com/uvid.com/trunk/js/sencha/profile
+svn://svn.eqspeed.com/uvid.com
+
+
+
+2012-03-12T14:31:25.945003Z
+4754
+danphelps
+
+
+svn:special svn:externals svn:needs-lock
+
+phone.js
+file
+
+
+
+
+2012-02-27T17:39:07.000000Z
+f445b500d81708fc6c3785c83f847734
+2012-03-12T14:31:25.945003Z
+4754
+danphelps
+
+tablet.js
+file
+
+
+
+
+2012-02-27T17:40:28.000000Z
+6cc805f963e0fc9450a08c49e0bd2b7b
+2012-03-12T14:31:25.945003Z
+4754
+danphelps
+
